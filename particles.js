@@ -100,6 +100,7 @@ var pJS = function(tag_id, params){
         },
         resize: true
       },
+      dispatched_events_selector: null,
       modes: {
         grab:{
           distance: 100,
@@ -1158,7 +1159,24 @@ var pJS = function(tag_id, params){
         
     }
 
-
+    if(pJS.interactivity.dispatched_events_selector){
+      let dispatch = function(event) {
+        let new_event = document.createEvent('MouseEvents')
+        new_event.initMouseEvent('mousemove',true,true,document.defaultView, 0,
+          event.screenX, event.screenY, event.clientX, event.clientY,
+          false,false,false,false,null,null)
+        pJS.interactivity.el.dispatchEvent(new_event)
+      }
+      let loopElements = function(els) {
+        let length = els.length
+        for (let el_idx=0; el_idx<length; el_idx++) {
+          els[el_idx].addEventListener('mousemove', dispatch)
+        }
+      }
+      if (pJS.interactivity.dispatched_events_selector) {
+        loopElements(document.querySelectorAll(pJS.interactivity.dispatched_events_selector))
+      }
+    }
   };
 
   pJS.fn.vendors.densityAutoParticles = function(){
