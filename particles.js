@@ -1162,7 +1162,7 @@ var pJS = function(tag_id, params){
     if(pJS.interactivity.dispatched_events_selector){
       let dispatch = function(event) {
         let new_event = document.createEvent('MouseEvents')
-        new_event.initMouseEvent('mousemove',true,true,document.defaultView, 0,
+        new_event.initMouseEvent(event.type,true,true,document.defaultView, 0,
           event.screenX, event.screenY, event.clientX, event.clientY,
           false,false,false,false,null,null)
         pJS.interactivity.el.dispatchEvent(new_event)
@@ -1171,6 +1171,7 @@ var pJS = function(tag_id, params){
         let length = els.length
         for (let el_idx=0; el_idx<length; el_idx++) {
           els[el_idx].addEventListener('mousemove', dispatch)
+          els[el_idx].addEventListener('click', dispatch)
         }
       }
       if (pJS.interactivity.dispatched_events_selector) {
